@@ -1,0 +1,37 @@
+<mujoco>
+    <compiler angle="radian" coordinate="local" meshdir="../stls/hand" texturedir="textures"></compiler>
+    <include file="assets/dmanus_wrist_assets.xml"/>
+    <include file="assets/dmanus_assets.xml"/>
+
+    <asset>
+        <texture name="texture:object" file="block.png" gridsize="3 4" gridlayout=".U..LFRB.D.."></texture>
+        <texture name="texture:hidden" file="block_hidden.png" gridsize="3 4" gridlayout=".U..LFRB.D.."></texture>
+
+        <material name="material:object" texture="texture:object" specular="1" shininess="0.3" reflectance="0"></material>
+        <material name="material:hidden" texture="texture:hidden" specular="1" shininess="0.3" reflectance="0"></material>
+        <material name="material:target" texture="texture:object" specular="1" shininess="0.3" reflectance="0" rgba="1 1 1 0.5"></material>
+    </asset>
+
+    <worldbody>
+
+        <light diffuse="0.4 0.4 0.4" pos="0 0 3" dir="0 0 -1"/>
+        <geom type="plane" pos="0 0 -0.15" size="0.5 0.5 1" rgba="0.4 0.3 0.4 1"/>
+
+        <body name="stand" pos="0 -0.2 0.05" euler="-1.57 0 0">
+            <include file="assets/dmanus_wrist_chain.xml"/>
+        </body>
+
+        <body name="object" pos="0 -0.05 0.2">
+            <geom name="object" type="box" size="0.05 0.05 0.05" material="material:object" condim="4" density="567"></geom>
+            <geom name="object_hidden" type="box" size="0.048 0.048 0.048" material="material:hidden" condim="4" contype="0" conaffinity="0" mass="0"></geom>
+            <site name="object:center" pos="0 0 0" rgba="1 0 0 0" size="0.01 0.01 0.01"></site>
+            <joint name="object:joint" type="free" damping="0.01"></joint>
+        </body>
+        <body name="target" pos="0 -0.05 0.2">
+            <geom name="target" type="box" size="0.05 0.05 0.05" material="material:target" condim="4" group="2" contype="0" conaffinity="0"></geom>
+            <site name="target:center" pos="0 -0.2 0" rgba="1 0 0 0" size="0.01 0.01 0.01"></site>
+            <joint name="target:joint" type="free" damping="0.01"></joint>
+        </body>
+
+    </worldbody>
+</mujoco>
